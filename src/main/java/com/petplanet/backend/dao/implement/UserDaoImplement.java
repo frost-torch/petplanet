@@ -30,13 +30,15 @@ public class UserDaoImplement implements UserDao {
                     user.getEmail());
         } catch (Exception e) {
             e.printStackTrace();
-            return WebStatusUtil.httpError("因缺少数据而引起的 sql 错误");
+            return WebStatusUtil.httpError("缺少数据或该 email 已被注册！");
         }
 
         // 获得用户的 id
-        user.setUId(
-                jdbcTemplate.queryForObject("select `u_id` from `user` where email=" + user.getEmail(), Integer.class)
-        );
+        Integer uId = jdbcTemplate.queryForObject("select `u_id` from `user` where email=\'" + user.getEmail() + "\'", Integer.class);
+        user.setUId(uId);
+
+        // 在 user_info 表中插入用户的数据
+        jdbcTemplate.update("insert into `user_info`(`u_id`) values(?)", uId);
 
         // 返回操作结果
         Map<String, Object> result = WebStatusUtil.httpOk("成功");
@@ -56,14 +58,15 @@ public class UserDaoImplement implements UserDao {
 
         try {
             User user = jdbcTemplate.queryForObject(
-                    "select * from user where `email`=" + email,
-                    User.class
+                    "select `u_id`,`name`,`main_pic`,`likes`,`comments`,`at_num`,`email` from `user` where `email`=?",
+                    this::mapRowToUser,
+                    email
             );
 
             Integer uId = user.getUId();
 
             resultVo = jdbcTemplate.queryForObject(
-                    "select `fans`,`subs`,`pubs`,`sign`,`birthday` from user where `u_id`=?",
+                    "select `fans`,`subs`,`pubs`,`sign`,`birthday` from `user_info` where `u_id`=?",
                     this::mapRowToUserVo,
                     uId
             );
@@ -83,6 +86,18 @@ public class UserDaoImplement implements UserDao {
                 rs.getInt("pubs"),
                 rs.getString("sign"),
                 rs.getString("birthday")
+        );
+    }
+
+    private User mapRowToUser(ResultSet rs, int rowNum) throws SQLException {
+        return new User(
+                rs.getInt("u_id"),
+                rs.getString("name"),
+                rs.getString("main_pic"),
+                rs.getInt("likes"),
+                rs.getInt("comments"),
+                rs.getInt("at_num"),
+                rs.getString("email")
         );
     }
 

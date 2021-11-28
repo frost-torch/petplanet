@@ -3,14 +3,11 @@ package com.petplanet.backend.controller;
 import com.petplanet.backend.pojo.User;
 import com.petplanet.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -19,12 +16,13 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/add")
-    public Map<String, Object> addUser(User user) {
+    public @ResponseBody Map<String, Object> addUser(@RequestBody User user) {
         return userService.addUser(user);
     }
 
     @GetMapping("/query")
-    public Map<String, Object> queryUser(String email) {
+    public @ResponseBody Map<String, Object> queryUser(@RequestParam String email) {
+        System.out.println(email);
         return userService.queryUser(email);
     }
 
