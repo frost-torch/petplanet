@@ -22,7 +22,6 @@ public class UserController {
 
     @GetMapping("/query")
     public @ResponseBody Map<String, Object> queryUser(@RequestParam String email) {
-        System.out.println(email);
         return userService.queryUser(email);
     }
 
