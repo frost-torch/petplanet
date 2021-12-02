@@ -2,6 +2,7 @@ package com.petplanet.backend.controller;
 
 import com.petplanet.backend.pojo.Help;
 import com.petplanet.backend.service.HelpService;
+import com.petplanet.backend.util.WebStatusUtil;
 import com.petplanet.backend.vo.HelpVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,11 @@ public class HelpController {
         help.setUId(requestVo.getUId());
 
         return helpService.addHelp(help);
+    }
+
+    @DeleteMapping("/del")
+    public @ResponseBody Map<String, Object> delHelp(@RequestParam Integer hId) {
+        return helpService.delHelp(hId);
     }
 
 }

@@ -42,4 +42,20 @@ public class HelpDaoImplement implements HelpDao {
         }
     }
 
+    @Override
+    public boolean delHelp(Integer hId) {
+
+        try {
+            jdbcTemplate.update(
+                    "delete from `help` where `h_id`=?",
+                    hId
+            );
+
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

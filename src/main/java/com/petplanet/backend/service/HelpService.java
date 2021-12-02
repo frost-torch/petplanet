@@ -29,4 +29,17 @@ public class HelpService {
         }
     }
 
+    public Map<String, Object> delHelp(Integer hId) {
+
+        if (null == hId) {
+            return WebStatusUtil.httpError("请填写需要删除的求助消息的序列号！");
+        }
+
+        if (helpDao.delHelp(hId)) {
+            return WebStatusUtil.httpOk("删除成功！");
+        } else {
+            return WebStatusUtil.httpError("删除失败");
+        }
+    }
+
 }
