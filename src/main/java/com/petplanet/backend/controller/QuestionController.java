@@ -19,7 +19,7 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
-    @PostMapping("/add")
+    @PostMapping("/pub")
     public @ResponseBody
     Map<String, Object> addQuestion(@RequestBody QuestionVo requestVo) {
         Question question = new Question();
