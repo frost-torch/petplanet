@@ -9,6 +9,7 @@ import java.util.Date;
 @Data
 public class HelpVo implements Serializable {
 
+    @JsonProperty("hId")
     private Integer hId;
     private String topic;
     private String content;

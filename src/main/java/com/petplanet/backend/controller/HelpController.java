@@ -38,4 +38,21 @@ public class HelpController {
         return helpService.delHelp(hId);
     }
 
+    @SuppressWarnings("all")
+    @PostMapping("/update")
+    public @ResponseBody Map<String, Object> updateHelp(@RequestBody HelpVo requestVo) {
+
+        Help help = new Help();
+        help.setHId(requestVo.getHId());
+        help.setTopic(requestVo.getTopic());
+        help.setContent(requestVo.getContent());
+        help.setClick(requestVo.getClick());
+        help.setWhen(new Date());
+        help.setSolved(requestVo.getSolved());
+        help.setCollected(requestVo.getCollected());
+        help.setUId(requestVo.getUId());
+
+        return helpService.updateHelp(help);
+    }
+
 }

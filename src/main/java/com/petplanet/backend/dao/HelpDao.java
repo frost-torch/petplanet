@@ -2,6 +2,8 @@ package com.petplanet.backend.dao;
 
 import com.petplanet.backend.pojo.Help;
 
+import java.sql.SQLException;
+
 public interface HelpDao {
 
     Integer addHelp(Help help);
@@ -12,5 +14,7 @@ public interface HelpDao {
      * @return 删除的状态（成功为 true，不成功为 false）
      */
     boolean delHelp(Integer hId);
+
+    void updateHelp(Help help) throws SQLException;
 
 }

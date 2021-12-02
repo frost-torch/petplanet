@@ -42,4 +42,15 @@ public class HelpService {
         }
     }
 
+    public Map<String, Object> updateHelp(Help help) {
+
+        try {
+            helpDao.updateHelp(help);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return WebStatusUtil.httpError("参数缺失或非法参数");
+        }
+
+        return WebStatusUtil.httpOk("修改成功！");
+    }
 }

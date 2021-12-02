@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+
 @Repository
 public class HelpDaoImplement implements HelpDao {
 
@@ -58,4 +61,35 @@ public class HelpDaoImplement implements HelpDao {
         return true;
     }
 
+    @Override
+    public void updateHelp(Help help) throws SQLException {
+
+        if (null == help.getHId()) {
+            throw new SQLException("字段 hId 不能为 null");
+        }
+
+        StringBuffer sql = new StringBuffer("update `help` set");
+        if (null != help.getTopic()) {
+            sql.append(" `topic`=\'").append(help.getTopic()).append("\',");
+        }
+        if (null != help.getContent()) {
+            sql.append(" `content`=\'").append(help.getContent()).append("\',");
+        }
+        if (null != help.getClick()) {
+            sql.append(" `click`=").append(help.getClick()).append(',');
+        }
+        if (null != help.getWhen()) {
+            sql.append(" `when`=\'").append(new SimpleDateFormat("yyyy-MM-dd").format(help.getWhen())).append("\'").append(',');
+        }
+        if (null != help.getSolved()) {
+            sql.append(" `solved`=").append(help.getSolved()).append(',');
+        }
+        if (null != help.getCollected()) {
+            sql.append(" `collected`=").append(help.getCollected()).append(',');
+        }
+        sql.deleteCharAt(sql.length() - 1);
+        sql.append(" where `h_id`=").append(help.getHId());
+
+        jdbcTemplate.update(sql.toString());
+    }
 }
