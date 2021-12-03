@@ -17,4 +17,14 @@ public class Pet {
     private String weight;
     private String mainPic;
 
+    public Pet(Integer owner, Integer pId, String name, Integer species, String type, String age, String weight, String mainPic) {
+        this.owner = owner;
+        this.pId = pId;
+        this.name = name;
+        this.species = species;
+        this.type = type;
+        this.age = age;
+        this.weight = weight;
+        this.mainPic = mainPic;
+    }
 }
